@@ -48,7 +48,7 @@ $p3 = new Palpite("Batman", "https://i.pinimg.com/736x/5f/3b/30/5f3b30949f156102
 $palpites = [$p1, $p2, $p3];
 
 //sorteio
-$resposta = $_GET['resposta'] ?? rand(1, 3); 
+$resposta = rand(1, 3);
 
 echo "<header><h2>Jogo da Adivinhação - Personagens</h2></header>";
 echo "<p style='font-size:20px;text-align:center;'>Escolha um dos personagens abaixo e veja se você acerta o sorteado!</p>";
@@ -81,8 +81,7 @@ if (isset($_GET['palpite']) && isset($_GET['resposta'])) {
     $resposta = (int)$_GET['resposta'];
 
     if ($palpite < 1 || $palpite > 3 || $resposta < 1 || $resposta > 3) {
-        echo "<p style='color:red; text-align:center;'>⚠️ Palpite ou resposta inválidos.</p>";
-        exit;
+        echo "<p style='color:red; text-align:center;'>Palpite ou resposta inválidos.</p>";
     }
 
     if ($palpite === $resposta) {
@@ -101,4 +100,4 @@ if (isset($_GET['palpite']) && isset($_GET['resposta'])) {
     echo "<div class='button'>
             <a href='jogo.php' style='font-size:18px; color:blue;'>🔄 Jogar novamente</a>
           </div>";
-} 
+}
