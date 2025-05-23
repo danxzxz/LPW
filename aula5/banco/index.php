@@ -5,28 +5,48 @@
     require_once('util/conexao.php');
 
     $conn = Conexao::getConexao();
-    //print_r($conn);
+    // print_r($conn);
 
-    //buscar os livros ja salvos
-    $sql = "SELECT * FROM livros";
-    $stm = $conn->prepare($sql);
-    $stm ->execute();
-    $livros = $stm->fetchAll();
-    // echo "<pre>" . print_r($livros, true). "</pre>";
 
     //verificar seo usuario ja clicou no gravar
     if (isset($_POST['titulo'])) {
         $titulo = $_POST['titulo'];
         $genero = $_POST['genero'];
         $qtdPag = $_POST['qtd_paginas'];
+        $autor = $_POST['autor'];
+
 
         //inserir as infos na base de dados
-        $sql = "INSERT INTO livros (titulo, genero, qtd_paginas)
-                VALUES (?, ?, ?)";
+        $sql = "INSERT INTO livros (titulo, genero, qtd_paginas, autor)
+                VALUES (?, ?, ?, ?)";
         $stm = $conn->prepare($sql);
-        $stm->execute([$titulo, $genero, $qtdPag]);
+        $stm->execute([$titulo, $genero, $qtdPag, $autor]);
+
+
+        header("location:index.php");
     }
 
+
+
+        
+    if (isset($_GET['excluir'])) {
+        $idExcluir = $_GET['excluir'];
+
+
+        $sqlExcluir = "DELETE FROM livros WHERE id = ?";
+        $stmExcluir = $conn->prepare($sqlExcluir);
+        $stmExcluir->execute([$idExcluir]);
+    
+        header("Location: index.php");
+    }
+
+
+    //buscar os livros ja salvos
+    $sql = "SELECT * FROM livros";
+    $stm = $conn->prepare($sql);
+    $stm->execute();
+    $livros = $stm->fetchAll();
+    //echo "<pre>" . print_r($livros, true) . "</pre>";
     ?>
     <!DOCTYPE html>
     <html>
@@ -58,8 +78,13 @@
             </div>
 
             <div style="margin-bottom: 10px;">
-                <label for="qtd_pag">Quantidade de paginas:</label>
+                <label for="qtd_pag">Paginas:</label>
                 <input type="number" name="qtd_paginas"><br>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label for="autor">Autor:</label>
+                <input type="text" name="autor"><br>
             </div>
 
             <div style="margin-bottom: 10px;">
@@ -76,6 +101,9 @@
         <th>Título</th>
         <th>Gênero</th>
         <th>Páginas</th>
+        <th>Autor</th>
+        <th>Excluir</th>
+
     </tr>
 
     <?php foreach ($livros as $livro): ?>
@@ -102,6 +130,8 @@
                 ?>
             </td>
             <td><?= $livro['qtd_paginas'] ?></td>
+            <td><?= $livro['autor'] ?></td>
+            <td> <a href="excluir.php?id=<?= $livro['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a></td>
         </tr>
     <?php endforeach; ?>
 </table>
