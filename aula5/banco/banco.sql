@@ -1,5 +1,5 @@
-CREATE DATABASE bilbioteca;
-USE biblioteca;
+CREATE DATABASE bibliotecaDan;
+USE bibliotecaDan;
 
 CREATE TABLE livros (
 id INTEGER NOT NULL AUTO_INCREMENT,
