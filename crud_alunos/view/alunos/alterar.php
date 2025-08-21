@@ -9,6 +9,7 @@ $msgErro = "";
 $aluno = NULL;
 if (isset($_POST['nome'])) {
     //Usuário já clicou no gravar
+    $id = $_POST['id'];
     $nome        = trim($_POST['nome']) ? trim($_POST['nome']) : NULL;
     $idade       = is_numeric($_POST['idade']) ? $_POST['idade'] : NULL;
     $estrangeiro = trim($_POST['estrang']) ? trim($_POST['estrang']) : NULL;
@@ -16,6 +17,7 @@ if (isset($_POST['nome'])) {
 
     //Criar um objeto Aluno para persistí-lo
     $aluno = new Aluno();
+    $aluno-> setId($id);
     $aluno->setNome($nome);
     $aluno->setIdade($idade);
     $aluno->setEstrangeiro($estrangeiro);
@@ -27,7 +29,7 @@ if (isset($_POST['nome'])) {
 
     //Chamar o DAO para salvar o objeto Aluno
     $alunoCont = new AlunoController();
-    $erros = $alunoCont->inserir($aluno);
+    $erros = $alunoCont->Alterar($aluno);
 
     if(! $erros) {
         //Redirecionar para o listar

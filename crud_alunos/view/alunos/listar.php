@@ -43,7 +43,9 @@
                     <img src="../../img/btn_editar.png" alt="">
                 </a>
             </td>
-            <td></td>
+            <td><a href="excluir.php?id=<?= $aluno->getId() ?>" onclick="return confirm('Confirma a exclusao?')">
+                    <img src="../../img/btn_excluir.png" alt="">
+                </a></td>
         </tr>
     <?php endforeach; ?>
 
