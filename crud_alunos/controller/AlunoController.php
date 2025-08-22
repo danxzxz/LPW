@@ -51,7 +51,7 @@ class AlunoController {
         //se nao tiver erros, alterar o aluno no banco de dados
         $erro = $this->alunoDAO->alterar($aluno);
         if($erro) {
-            array_push($erros, "Erro ao salvar o aluno!");
+            array_push($erros, "Erro ao atualizar o aluno!");
             if(AMB_DEV)
                 array_push($erros, $erro->getMessage());
         }
@@ -59,6 +59,17 @@ class AlunoController {
 
     }
 
-
-
+    public function excluirPorId(int $id) {
+        $erro = $this->alunoDAO->excluirPorId($id);
+        if($erro) {
+            array_push($erros, "Erro ao excluir o aluno!");
+            if(AMB_DEV)
+                array_push($erros, $erro->getMessage());    
+        }
+        
+        return $erros;
+    }
 }
+    
+
+

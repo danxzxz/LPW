@@ -10,15 +10,25 @@ if (isset($_GET['id']))
 
 //2- chamar o controller para excluir
 $alunoCont = new AlunoController();
-$erro = $alunoCont->excluir($id);   
+$aluno = $alunoCont->buscarPorId($id);  
+if($aluno) {
+    $alunoCont->excluirPorId($aluno->getId());
+
 
 //3- verifica se deu erro
-
-    //3.1-SIM: exibe o erro na propria pagiuna
-if($erro) {
-    echo "<h3>Erro ao excluir o aluno</h3>";
-    echo "<p>$erro</p>";
-    echo "<a href='listar.php'>Voltar</a>";
-    exit;
-}   
-    //3.2(sucesso)
+if($erros){
+    //3.1- se deu erro, exibe mensagem
+    $msgErros = implode("<br>", $erros);
+    // foreach($erros as $erro) {
+    //     echo "<p class='alert alert-danger'>$erro</p>";
+    // }
+}else{
+    //3.2- se nao deu erro, redireciona para a lista de alunos
+    header("Location: listar.php");
+    exit();
+}
+} else {
+   
+    echo "<p class='alert alert-danger'>Aluno não encontrado!</p>";
+    echo "<p><a href='listar.php'>Voltar</a></p>";
+    }
